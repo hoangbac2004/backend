@@ -1,6 +1,5 @@
 ﻿#include "tool.h"
 // Windows
-#include <Windows.h>
 
 // std
 #include <algorithm>
@@ -12,6 +11,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+
 
 // boost
 #include <boost/locale.hpp>
