@@ -1,0 +1,1 @@
+﻿còn chuyển set về forward ở mọi class
