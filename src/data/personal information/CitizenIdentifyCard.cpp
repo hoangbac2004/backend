@@ -8,7 +8,7 @@ oracle::occi::Environment* CitizenIdentifyCard::env = nullptr;
 void CitizenIdentifyCard::initialisation() {
   extern oracle::occi::Environment* g_obj_env;
   env = g_obj_env;
-  env->getMap()->put(std::format("{}.{}", schema, type_name).c_str(), &readSQL, &writeSQL);
+
 }
 
 CitizenIdentifyCard::CitizenIdentifyCard(const CitizenIdentifyCard& old)
@@ -31,7 +31,8 @@ CitizenIdentifyCard::CitizenIdentifyCard(CitizenIdentifyCard&& old) noexcept
       place_of_residence(std::move(old.place_of_residence)),
       date_of_expiry(std::move(old.date_of_expiry)) {}
 
-CitizenIdentifyCard& CitizenIdentifyCard::operator=(const CitizenIdentifyCard& old) {
+CitizenIdentifyCard& CitizenIdentifyCard::operator=(
+    const CitizenIdentifyCard& old) {
   if (this == &old) {
     return *this;
   }
@@ -46,7 +47,8 @@ CitizenIdentifyCard& CitizenIdentifyCard::operator=(const CitizenIdentifyCard& o
   return *this;
 }
 
-CitizenIdentifyCard& CitizenIdentifyCard::operator=(CitizenIdentifyCard&& old) noexcept {
+CitizenIdentifyCard& CitizenIdentifyCard::operator=(
+    CitizenIdentifyCard&& old) noexcept {
   if (this == &old) {
     return *this;
   }
@@ -61,23 +63,32 @@ CitizenIdentifyCard& CitizenIdentifyCard::operator=(CitizenIdentifyCard&& old) n
   return *this;
 }
 
-CitizenIdentifyCard::CitizenIdentifyCard(void* ctxOCCI_) : oracle::occi::PObject(ctxOCCI_) {}
+CitizenIdentifyCard::CitizenIdentifyCard(void* ctxOCCI_)
+    : oracle::occi::PObject(ctxOCCI_) {}
 
-void* CitizenIdentifyCard::operator new(size_t size) { return oracle::occi::PObject::operator new(size); }
+void* CitizenIdentifyCard::operator new(size_t size) {
+  return oracle::occi::PObject::operator new(size);
+}
 
-void* CitizenIdentifyCard::operator new(size_t size, const oracle::occi::Connection* sess,
-                                        const OCCI_STD_NAMESPACE::string& table) {
-  return oracle::occi::PObject::operator new(size, sess, table, std::format("{}.{}", schema, type_name).c_str());
+void* CitizenIdentifyCard::operator new(
+    size_t size, const oracle::occi::Connection* sess,
+    const OCCI_STD_NAMESPACE::string& table) {
+  return oracle::occi::PObject::operator new(
+      size, sess, table, std::format("{}.{}", schema, type_name).c_str());
 }
 
 void* CitizenIdentifyCard::operator new(size_t size, void* ctxOCCI_) {
   return oracle::occi::PObject::operator new(size, ctxOCCI_);
 }
 
-void CitizenIdentifyCard::getSQLTypeName(oracle::occi::Environment* env, void** schemaName, unsigned int& schemaNameLen,
-                                         void** typeName, unsigned int& typeNameLen) const {
-  return oracle::occi::PObject::getSQLTypeName(env, &CitizenIdentifyCard::readSQL, schemaName, schemaNameLen, typeName,
-                                               typeNameLen);
+void CitizenIdentifyCard::getSQLTypeName(oracle::occi::Environment* env,
+                                         void** schemaName,
+                                         unsigned int& schemaNameLen,
+                                         void** typeName,
+                                         unsigned int& typeNameLen) const {
+  return oracle::occi::PObject::getSQLTypeName(
+      env, &CitizenIdentifyCard::readSQL, schemaName, schemaNameLen, typeName,
+      typeNameLen);
 }
 
 std::string CitizenIdentifyCard::getSQLTypeName() const { return table_name; }
@@ -94,7 +105,7 @@ void* CitizenIdentifyCard::readSQL(void* ctxOCCI_) {
   } catch (oracle::occi::SQLException& e) {
     delete objOCCI_;
     e.setErrorCtx(ctxOCCI_);
-    std::cerr << e.what() << std::endl;
+    std::cerr << e.what() << '\n';
     return (void*)nullptr;
   }
   return (void*)objOCCI_;
@@ -126,7 +137,8 @@ void CitizenIdentifyCard::writeSQL(void* objOCCI_, void* ctxOCCI_) {
   }
 }
 
-void CitizenIdentifyCard::writeSQL(oracle::occi::AnyData& streamOCCI_) noexcept {
+void CitizenIdentifyCard::writeSQL(
+    oracle::occi::AnyData& streamOCCI_) noexcept {
   streamOCCI_.setNumber(static_cast<double>(number));
   streamOCCI_.setString(full_name);
   streamOCCI_.setDate(date_of_birth.to_oracle_date(env));
@@ -139,4 +151,6 @@ void CitizenIdentifyCard::writeSQL(oracle::occi::AnyData& streamOCCI_) noexcept 
 
 void CitizenIdentifyCard::set(const CitizenIdentifyCard& old) { *this = old; }
 
-void CitizenIdentifyCard::set(CitizenIdentifyCard&& old) { *this = std::move(old); }
+void CitizenIdentifyCard::set(CitizenIdentifyCard&& old) {
+  *this = std::move(old);
+}

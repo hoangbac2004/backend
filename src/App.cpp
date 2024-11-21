@@ -1,8 +1,8 @@
-﻿#if (OCCI_MAJOR_VERSION > 9)
-     env->setCacheSortedFlush(true);  // benefit of performance, if available
-#endif
+﻿#include "controller/SignInController.hpp"
+#include "controller/client/ClientController.h"
 
 #include <iostream>
+#include <memory>
 
 #include "./AppComponent.hpp"
 #include "./controller/MyController.hpp"
@@ -20,7 +20,9 @@ void run()
 
     /* Create MyController and add all of its endpoints to router */
     router->addController(std::make_shared<MyController>());
-    router->addController(std::make_shared<CitizenIdentifyCardController>());
+    router->addController(std::make_shared<CitizenIdentifyCardController>());   
+    router->addController(std::make_shared<ClientController>());
+    router->addController(std::make_shared<SignInController>());
 
     /* Get connection handler component */
     OATPP_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, connectionHandler);

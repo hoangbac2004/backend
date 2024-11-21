@@ -1,9 +1,6 @@
 ﻿#ifndef MyController_hpp
 #define MyController_hpp
 
-#include <locale>
-#include <oatpp/encoding/Unicode.hpp>
-
 #include "dto/ResponseDTO.hpp"
 #include "oatpp/macro/codegen.hpp"
 #include "oatpp/macro/component.hpp"

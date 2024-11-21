@@ -1,6 +1,9 @@
-#pragma once
+#ifndef __CITIZENIDENTIFYCARDCONTROLLER_H__
+#define __CITIZENIDENTIFYCARDCONTROLLER_H__
 
 // oatpp
+#include <occiControl.h>
+
 #include <oatpp/macro/codegen.hpp>
 #include <oatpp/macro/component.hpp>
 
@@ -11,19 +14,22 @@
 #include "service/citizen identify card/CitizenIdentifyCardService.h"
 
 // dto
-#include "dto/DTOs.hpp"
 #include "dto/ResponseDTO.hpp"
 #include "dto/citizen identify card/CitizenIdentifyCardDTO.h"
 
 #include OATPP_CODEGEN_BEGIN(ApiController)
 
-class CitizenIdentifyCardController : public oatpp::web::server::api::ApiController {
+class CitizenIdentifyCardController
+    : public oatpp::web::server::api::ApiController {
  public:
-  CitizenIdentifyCardController(OATPP_COMPONENT(std::shared_ptr<oatpp::web::mime::ContentMappers>, apiContentMapper))
+  CitizenIdentifyCardController(OATPP_COMPONENT(
+      std::shared_ptr<oatpp::web::mime::ContentMappers>, apiContentMapper))
       : oatpp::web::server::api::ApiController(apiContentMapper, "cic") {}
 
-  ENDPOINT("POST", "/create", create, BODY_DTO(Object<CitizenIdentifyCardDTO>, request)) {
-    auto result = ResponseDTO::createShared(service::CitizenIdentifyCardService::add(request->to_obj()));
+  ENDPOINT("POST", "/create", create,
+           BODY_DTO(Object<CitizenIdentifyCardDTO>, request)) {
+    auto result = ResponseDTO::createShared(
+        service::CitizenIdentifyCardService::add(request->to_obj()));
     return createDtoResponse(Status::CODE_200, result);
   }
 
@@ -31,14 +37,17 @@ class CitizenIdentifyCardController : public oatpp::web::server::api::ApiControl
     auto temp = service::CitizenIdentifyCardService::get(number);
     if (temp) {
       return createDtoResponse(
-          Status::CODE_200, ResponseDTO::createShared(CitizenIdentifyCardDTO::createShared(std::move(temp).value())));
+          Status::CODE_200,
+          ResponseDTO::createShared(
+              CitizenIdentifyCardDTO::createShared(std::move(temp).value())));
     } else {
-      return createDtoResponse(Status::CODE_404, ResponseDTO::createShared(404, "not found"));
+      return createDtoResponse(Status::CODE_404,
+                               ResponseDTO::createShared(404, "not found"));
     }
-    // return createDtoResponse(Status::CODE_200, MyDto::createShared(200, ""));
   }
 
-  ENDPOINT("PUT", "/update/{number}", update, PATH(Int64, number), BODY_DTO(Object<CitizenIdentifyCardDTO>, new_obj)) {
+  ENDPOINT("PUT", "/update/{number}", update, PATH(Int64, number),
+           BODY_DTO(Object<CitizenIdentifyCardDTO>, new_obj)) {
     return createResponse(Status::CODE_200, "");
   }
 
@@ -50,3 +59,5 @@ class CitizenIdentifyCardController : public oatpp::web::server::api::ApiControl
 };
 
 #include OATPP_CODEGEN_END(ApiController)
+
+#endif  // __CITIZENIDENTIFYCARDCONTROLLER_H__

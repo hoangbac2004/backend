@@ -1,15 +1,15 @@
 #pragma once
 
-#include <optional>
 #include <memory>
+#include <optional>
 #include <vector>
 
 #include "data/personal information/CitizenIdentifyCard.h"
+#include "define.h"
 #include "exception/oracle/CustomOracleException.h"
 #include "repository/citizen identify card/CitizenIdentifyCardRepository.h"
-#include "define.h"
 
-namespace service::CitizenIdentifyCardService {
+namespace service:: CitizenIdentifyCardService {
 extern CitizenIdentifyCardRepository query;
 using Ref = oracle::occi::Ref<CitizenIdentifyCard>;
 

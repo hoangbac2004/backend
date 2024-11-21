@@ -1,11 +1,12 @@
-#pragma once
+#ifndef __CITIZENIDENTIFYCARDDTO_H__
+#define __CITIZENIDENTIFYCARDDTO_H__
 
+#include <data/personal information/CitizenIdentifyCard.h>
 #include <tool.h>
 
 #include <iostream>
 #include <oatpp/Types.hpp>
 #include <oatpp/macro/codegen.hpp>
-#include <data/personal information/CitizenIdentifyCard.h>
 
 #include OATPP_CODEGEN_BEGIN(DTO)
 
@@ -36,9 +37,12 @@ class CitizenIdentifyCardDTO : public oatpp::DTO {
 
  public:
   CitizenIdentifyCard to_obj() {
-    return CitizenIdentifyCard(number, full_name, date_of_birth, sex, nationality, place_of_origin, place_of_residence,
-                               date_of_expiry);
+    return CitizenIdentifyCard(
+        number, full_name, std::move(date_of_birth), std::move(sex),
+        std::move(nationality), std::move(place_of_origin),
+        std::move(place_of_residence), std::move(date_of_expiry));
   }
 };
 
 #include OATPP_CODEGEN_END(DTO)
+#endif  // __CITIZENIDENTIFYCARDDTO_H__

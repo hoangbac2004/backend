@@ -12,8 +12,7 @@
 #include <boost/date_time.hpp>
 
 namespace tool {
-std::wstring to_utf16(const std::string& input);
-std::string to_utf8(const std::wstring& input);
+
 std::string format_name(const std::string& input);
 std::string format_date_time(const std::string& date);
 std::string to_date_time(const std::string& date);

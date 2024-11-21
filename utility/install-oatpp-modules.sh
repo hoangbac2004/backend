@@ -17,7 +17,7 @@ mkdir build
 cd build
 
 cmake -DOATPP_BUILD_TESTS=OFF -DCMAKE_BUILD_TYPE=Release ..
-sudo make install -j 6
+sudo make install -j 16
 
 cd ../../
 

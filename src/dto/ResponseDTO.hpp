@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿#ifndef __RESPONSEDTO_H__
+#define __RESPONSEDTO_H__
+
 
 #include "oatpp/Types.hpp"
 #include "oatpp/macro/codegen.hpp"
@@ -33,6 +35,9 @@ class ResponseDTO : public oatpp::DTO {
 
   ResponseDTO(const std::string& message)
       : status_code(message.empty() ? 200 : 404), message(message.empty() ? "success" : message) {}
+
 };
 
 #include OATPP_CODEGEN_END(DTO)
+
+#endif // __RESPONSEDTO_H__

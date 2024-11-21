@@ -13,8 +13,6 @@ void BasicAccount::initialisation()
 {
     extern oracle::occi::Environment* g_obj_env;
     env = g_obj_env;
-    env->getMap()->put(std::format("{}.{}", schema, type_name).c_str(), readSQL,
-        writeSQL);
 }
 
 BasicAccount::BasicAccount(const BasicAccount& other)

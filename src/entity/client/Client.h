@@ -14,17 +14,17 @@ class Client : public oracle::occi::PObject
     static constexpr const char* schema = "SYSTEM";
     static constexpr const char* type_name = "CLIENT";
     static constexpr const char* table_name = "CLIENT_TABLE";
-    static constexpr const char* primary_key = "NUMBER";
+    static constexpr const char* primary_key = "NUMBER_";
 
     static oracle::occi::Environment* env;
     
     //OneToOne
-    CitizenIdentifyCard CIC;
+    long long number_;
     std::string username;
     std::string password;
 
     template <typename T1, typename T2, typename T3>
-    Client(T1&& CIC, T2&& username, T3&& password);
+    Client(T1&& number_, T2&& username, T3&& password);
     // get account management
     Client(const Client& other);
     Client(Client&& old) noexcept;
@@ -50,7 +50,7 @@ class Client : public oracle::occi::PObject
 };
 
 template <typename T1, typename T2, typename T3>
-inline Client::Client(T1&& CIC, T2&& username, T3&& password)
-    : CIC(std::forward<T1>(CIC)), username(std::forward<T2>(username)), password(std::forward<T3>(password))
+inline Client::Client(T1&& number_, T2&& username, T3&& password)
+    : number_(std::forward<T1>(number_)), username(std::forward<T2>(username)), password(std::forward<T3>(password))
 {
 }

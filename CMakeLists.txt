@@ -6,10 +6,10 @@ project(${project_name})
 
 set(CMAKE_CXX_STANDARD 23)
 
+set(GLOB_RECURSE $SOURCE "src/*.cpp" "include/*.cpp")
+set(GLOB_RECURSE $HEADER "src/*.h" "src/*.hpp" "include/*.h" "include/*.hpp")
 
-set(GLOB_RECURSE $SOURCE "src/*.cpp" "include/*cpp")
-set(GLOB_RECURSE $HEADER "src/*.h" "include/*hpp")
-
+add_compile_options(-finput-charset=UTF-8 -fexec-charset=UTF-8)
 
 
 if (MSVC)
@@ -36,6 +36,7 @@ find_library(ORACLE_OCCI_LIB occi HINTS $ENV{ORACLE_HOME})
 find_library(ORACLE_CLNTSH_LIB clntsh HINTS $ENV{ORACLE_HOME})
 find_library(ORACLE_NNZ21_LIB nnz21 HINTS $ENV{ORACLE_HOME})
 find_library(ORACLE_OCIEI_LIB ociei HINTS $ENV{ORACLE_HOME})
+find_library(ORACLE_OCCI_GCC occi_gcc53 HINTS $ENV{ORACLE_HOME})
 
 message(${ORACLE_OCCI_LIB})
 message(${ORACLE_CLNTSH_LIB})
@@ -44,20 +45,17 @@ message(${ORACLE_OCIEI_LIB})
 
 find_package(oatpp 1.4.0 REQUIRED)
 find_package(Boost 1.70.0 REQUIRED system filesystem locale)
+find_package(ICU REQUIRED COMPONENTS uc i18n)
 
 target_link_libraries(${project_name}-lib
         PUBLIC oatpp::oatpp
         PUBLIC oatpp::oatpp-test
+        PRIVATE ICU::uc ICU::i18n
         PRIVATE Boost::headers Boost::system Boost::filesystem Boost::locale
-        # occi clntsh nnz21 ociei
-        ${ORACLE_OCCI_LIB}
-        ${ORACLE_CLNTSH_LIB}
-        ${ORACLE_NNZ21_LIB}
-        ${ORACLE_OCIEI_LIB}
+        occi_gcc53 clntsh nnz21 ociei
 )
 
-
-target_include_directories(${project_name}-lib PUBLIC src ${PROJECT_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS})
+target_include_directories(${project_name}-lib PUBLIC src ${PROJECT_SOURCE_DIR}/include ${Boost_INCLUDE_DIRS} ${ICU_INCLUDE_DIRS})
 ## add executables
 
 add_executable(${project_name}-exe
@@ -70,7 +68,7 @@ add_dependencies(${project_name}-exe ${project_name}-lib)
 
 set_target_properties(${project_name}-lib ${project_name}-exe PROPERTIES
         CXX_STANDARD 23
-        CXX_EXTENSIONS OFF
+        CXX_EXTENSIONS ON
         CXX_STANDARD_REQUIRED ON
 )
 

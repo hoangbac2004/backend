@@ -45,7 +45,6 @@ Transaction::Transaction(void* ctxOCCI_) : oracle::occi::PObject(ctxOCCI_) {}
 void Transaction::initialisation() {
   extern oracle::occi::Environment* g_obj_env;
   env = g_obj_env;
-  env->getMap()->put(std::format("{}.{}", schema, type_name).c_str(), readSQL, writeSQL);
 }
 
 void* Transaction::operator new(size_t size) { return oracle::occi::PObject::operator new(size); }

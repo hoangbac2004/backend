@@ -23,4 +23,7 @@ template <typename T>
 std::string add(T&& obj) {
   CUSTOM_DEFAULT_QUERY(query.add(std::forward<T>(obj)));
 }
+
+std::string access_client(const std::string& username,
+                          const std::string& password);
 }  // namespace service::ClientService
