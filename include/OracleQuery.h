@@ -39,6 +39,7 @@ concept data_type = std::is_arithmetic_v<std::decay_t<T>> ||
 
 template <object_base OracleObject>
 class OracleQuery {
+public:
   using Environment = oracle::occi::Environment;
   using Connection = oracle::occi::Connection;
   using Statement = oracle::occi::Statement;
@@ -97,6 +98,8 @@ class OracleQuery {
   double execute_number_aggregate(const std::string &sql);
 
   std::string execute_string_aggregate(const std::string &sql);
+
+  std::vector<OracleObject> execute_query(const std::string &sql);
 };
 
 template <object_base OracleObject>
@@ -143,7 +146,7 @@ std::vector<OracleObject> OracleQuery<OracleObject>::get_all() {
   ResultSet *rs = stmt->executeQuery();
   std::vector<OracleObject> result;
   while (rs->next()) {
-    result.push_back(rs->getObject(1));
+    result.push_back(*static_cast<Ref<OracleObject>>(rs->getRef(1)));
   }
   return result;
 }
@@ -245,12 +248,28 @@ inline double OracleQuery<OracleObject>::execute_number_aggregate(
 }
 
 template <object_base OracleObject>
-inline std::string OracleQuery<OracleObject>::execute_string_aggregate(
-    const std::string &sql) {
+inline std::string OracleQuery<OracleObject>::execute_string_aggregate(const std::string &sql) {
   CREATE_STATEMENT(sql);
   ResultSet *rs = stmt->executeQuery();
   rs->next();
   return rs->getString(1);
+}
+template <object_base OracleObject>
+std::vector<OracleObject> OracleQuery<OracleObject>::execute_query(const std::string &sql) {
+  CREATE_STATEMENT(sql);
+  ResultSet* rs = stmt->executeQuery();
+  std::vector<OracleObject> result;
+  while (rs->next()) {
+    oracle::occi::PObject * obj = rs->getObject(1); // Cột chứa kiểu đối tượng
+    auto* myObj = dynamic_cast<OracleObject*>(obj);
+
+    if (myObj) {
+      result.push_back(*myObj);
+    } else {
+      throw std::runtime_error("Type mismatch when retrieving PObject.");
+    }
+  }
+  return result;
 }
 
 template <object_base OracleObject>

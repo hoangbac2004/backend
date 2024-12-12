@@ -1,5 +1,4 @@
-#ifndef __ACCOUNTCONTROLLER_H__
-#define __ACCOUNTCONTROLLER_H__
+#pragma once
 
 #include <oatpp/macro/codegen.hpp>
 #include <oatpp/macro/component.hpp>
@@ -29,8 +28,12 @@ class AccountController : public oatpp::web::server::api::ApiController {
                   AccountResponse::createShared(std::move(temp).value()))
             : ResponseDTO::createShared(404, "Not Found"));
   }
+
+  // ENDPOINT("GET","/get" ,get_with_sign_in, BODY_DTO(Object<AccountRequest>, request)) {
+  //   auto temp = AccountService::get_basic_account_by_number_or_alias(request->input);
+  // }
+
 };
 
 #include OATPP_CODEGEN_END(ApiController)
 
-#endif  // __ACCOUNTCONTROLLER_H__

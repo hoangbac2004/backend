@@ -8,6 +8,7 @@
 #include "oatpp/json/ObjectMapper.hpp"
 
 #include "oatpp/macro/component.hpp"
+#include <oatpp/web/server/interceptor/AllowCorsGlobal.hpp>
 
 /**
  *  Class which creates and holds Application components and registers components in oatpp::base::Environment
@@ -33,10 +34,20 @@ public:
   /**
    *  Create ConnectionHandler component which uses Router component to route requests
    */
-  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>, serverConnectionHandler)([] {
-    OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router); // get Router component
-    return oatpp::web::server::HttpConnectionHandler::createShared(router);
-  }());
+  OATPP_CREATE_COMPONENT(std::shared_ptr<oatpp::network::ConnectionHandler>,
+                        serverConnectionHandler)([] {
+   OATPP_COMPONENT(std::shared_ptr<oatpp::web::server::HttpRouter>, router);
+
+   auto connectionHandler = oatpp::web::server::HttpConnectionHandler::createShared(router);
+
+   /* Add CORS request and response interceptors */
+   connectionHandler->addRequestInterceptor(
+       std::make_shared<oatpp::web::server::interceptor::AllowOptionsGlobal>());
+   connectionHandler->addResponseInterceptor(
+       std::make_shared<oatpp::web::server::interceptor::AllowCorsGlobal>());
+
+   return connectionHandler;
+ }());
   
   /**
    *  Create ObjectMapper component to serialize/deserialize DTOs in Contoller's API
@@ -52,6 +63,10 @@ public:
     return mappers;
 
   }());
+
+
+
+
 
 };
 

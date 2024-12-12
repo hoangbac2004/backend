@@ -29,12 +29,12 @@ class CitizenIdentifyCardController
   ENDPOINT("POST", "/create", create,
            BODY_DTO(Object<CitizenIdentifyCardDTO>, request)) {
     auto result = ResponseDTO::createShared(
-        service::CitizenIdentifyCardService::add(request->to_obj()));
+        CitizenIdentifyCardService::add(request->to_obj()));
     return createDtoResponse(Status::CODE_200, result);
   }
 
   ENDPOINT("GET", "/{number}", get, PATH(Int64, number)) {
-    auto temp = service::CitizenIdentifyCardService::get(number);
+    auto temp = CitizenIdentifyCardService::get(number);
     if (temp) {
       return createDtoResponse(
           Status::CODE_200,
@@ -52,7 +52,7 @@ class CitizenIdentifyCardController
   }
 
   ENDPOINT("DELETE", "/delete/{number}", delete_, PATH(Int64, number)) {
-    auto check = service::CitizenIdentifyCardService::delete_by_id(number);
+    auto check = CitizenIdentifyCardService::delete_by_id(number);
     auto result = ResponseDTO::createShared(check);
     return createDtoResponse(Status(result->status_code, ""), result);
   }

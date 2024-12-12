@@ -7,5 +7,7 @@
 namespace MovieService {
 extern MovieRepository query;
 
-std::optional<Movie> get(const std::string& sql);
+inline std::vector<Movie> get(const std::string& title) {
+  return query.get_by_title(title);
+}
 }  // namespace MovieService

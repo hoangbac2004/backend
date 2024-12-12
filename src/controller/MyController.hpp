@@ -24,7 +24,6 @@ public:
 
 public:
 	ENDPOINT("GET", "/", root) {
-	
 		return createResponse(Status::CODE_200, Status::CODE_200.description);
 	}
 

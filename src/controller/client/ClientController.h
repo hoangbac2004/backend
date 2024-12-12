@@ -19,7 +19,7 @@ class ClientController : public oatpp::web::server::api::ApiController {
       : oatpp::web::server::api::ApiController(apiContentMapper, "client") {}
 
   ENDPOINT("POST", "/add", add, BODY_DTO(Object<ClientRequest>, request)) {
-    auto temp = service::ClientService::add(request->to_obj());
+    auto temp = ClientService::add(request->to_obj());
     auto result = ResponseDTO::createShared(temp);
     return createDtoResponse(Status(result->status_code, ""), result);
   }
@@ -31,7 +31,7 @@ class ClientController : public oatpp::web::server::api::ApiController {
 
   ENDPOINT("PUT", "/update/{id}", update, PATH(Int64, id),
            BODY_DTO(Object<ClientRequest>, new_client)) {
-    auto temp = service::ClientService::update(id, new_client->to_obj());
+    auto temp = ClientService::update(id, new_client->to_obj());
     auto result = ResponseDTO::createShared(temp);
     return createDtoResponse(Status(result->status_code, ""), result);
   }

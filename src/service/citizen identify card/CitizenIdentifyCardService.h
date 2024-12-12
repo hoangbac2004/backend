@@ -6,10 +6,10 @@
 
 #include "data/personal information/CitizenIdentifyCard.h"
 #include "define.h"
-#include "exception/oracle/CustomOracleException.h"
+#include "exception/oracle/OracleException.h"
 #include "repository/citizen identify card/CitizenIdentifyCardRepository.h"
 
-namespace service:: CitizenIdentifyCardService {
+namespace  CitizenIdentifyCardService {
 extern CitizenIdentifyCardRepository query;
 using Ref = oracle::occi::Ref<CitizenIdentifyCard>;
 
@@ -27,4 +27,4 @@ template <typename T>
 std::string add(T&& obj) {
   CUSTOM_DEFAULT_QUERY(query.add(std::forward<T>(obj)));
 }
-}  // namespace service::CitizenIdentifyCardService
+}  // namespace CitizenIdentifyCardService

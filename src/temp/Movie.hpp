@@ -25,7 +25,7 @@ class Movie : public oracle::occi::PObject {
 
  public:
   Movie() = default;
-  ~Movie() = default;
+  virtual ~Movie() = default;
 
   Movie(const Movie&) = default;
   Movie(Movie&&) = default;

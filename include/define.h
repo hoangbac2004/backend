@@ -3,7 +3,9 @@
 #define CUSTOM_DEFAULT_QUERY(query)               \
   try {                                           \
     query;                                        \
-    return std::string{};                                    \
+    return std::string{};                         \
   } catch (const oracle::occi::SQLException& e) { \
+    return e.what();                              \
+  } catch (const OracleException& e) {            \
     return e.what();                              \
   }

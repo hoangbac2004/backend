@@ -9,6 +9,10 @@ extern oracle::occi::Connection* g_default_conn;
 class ClientRepository : public OracleQuery<Client>
 {
    public:
-    ClientRepository(oracle::occi::Environment* env = g_obj_env, oracle::occi::Connection* conn = g_default_conn);
+    ClientRepository(oracle::occi::Environment* env = g_obj_env,
+                     oracle::occi::Connection* conn = g_default_conn);
     bool find_username_and_password(const std::string& username, const std::string& password);
+    bool find_username_and_password(const std::string& username, const std::string& password) const;
+
+    std::optional<Client> get_client(const std::string& username, const std::string& password) const;
 };
